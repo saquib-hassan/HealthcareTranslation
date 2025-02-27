@@ -48,7 +48,7 @@ namespace HealthcareTranslationAPI.Controllers
             var result = await api.Completions.CreateCompletionAsync(new CompletionRequest
             {
                 Prompt = $"Translate '{request.Text}' from {request.SourceLanguage} to {request.TargetLanguage}.",
-                Model = "gpt-3.5-turbo", // Change model here
+                Model = "gpt-3.5-turbo",
                 MaxTokens = 50
             });
             return Ok(new { TranslatedText = result.Completions[0].Text.Trim() });
