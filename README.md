@@ -1,6 +1,4 @@
 Healthcare Translation App Documentation
-Prototype Link
-•	Live Prototype: [Insert your Koyeb deployment link here]
 Code Documentation
 Code Structure
 •	Frontend (Angular):
