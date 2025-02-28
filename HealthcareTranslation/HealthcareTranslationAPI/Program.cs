@@ -2,12 +2,32 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
+//builder.Services.AddCors(options => {
+//    options.AddPolicy("AllowAll", builder => {
+//        builder.AllowAnyOrigin()
+//               .AllowAnyMethod()
+//               .AllowAnyHeader();
+//    });
+//});
+
+builder.WebHost.UseUrls("http://*:80");
+
+//builder.Services.AddCors(options => {
+//    options.AddPolicy("AllowAll",
+//        policy => policy
+//            .WithOrigins("http://localhost:4200") // Angular dev server
+//            .AllowAnyHeader()
+//            .AllowAnyMethod()
+//            .AllowCredentials());
+//});
+
+// Replace existing CORS configuration with:
 builder.Services.AddCors(options => {
-    options.AddPolicy("AllowAll", builder => {
-        builder.AllowAnyOrigin()
-               .AllowAnyMethod()
-               .AllowAnyHeader();
-    });
+    options.AddPolicy("AllowAll",
+        policy => policy
+            .AllowAnyOrigin()
+            .AllowAnyHeader()
+            .AllowAnyMethod());
 });
 
 builder.Services.AddControllers();
@@ -17,6 +37,9 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
+
+app.UseCors("AllowAll");
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -24,12 +47,19 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+// added the satic files middleware
+app.UseDefaultFiles();
+app.UseStaticFiles();
+
+//app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
-app.UseCors("AllowAll");
+//app.UseCors("AllowAngularDevClient");
+
 
 app.MapControllers();
+
+app.MapFallbackToFile("index.html");
 
 app.Run();
