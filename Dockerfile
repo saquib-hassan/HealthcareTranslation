@@ -21,6 +21,30 @@
 # ENTRYPOINT ["dotnet", "HealthcareTranslationAPI.dll"]
 
 
+# # Stage 1: Build Angular
+# FROM node:20 AS angular-build
+# WORKDIR /app
+# COPY healthcare-translation-app/package*.json ./
+# RUN npm install
+# COPY healthcare-translation-app .
+# RUN npm run build -- --configuration=production
+
+# # Stage 2: Build ASP.NET
+# FROM mcr.microsoft.com/dotnet/sdk:8.0 AS dotnet-build
+# WORKDIR /src
+# COPY HealthcareTranslationAPI .
+# RUN dotnet restore "HealthcareTranslationAPI.csproj"
+# RUN dotnet publish "HealthcareTranslationAPI.csproj" -c Release -o /app
+
+# # Final Stage
+# FROM mcr.microsoft.com/dotnet/aspnet:8.0
+# WORKDIR /app
+# EXPOSE 80 
+# COPY --from=dotnet-build /app .
+# COPY --from=angular-build /app/dist/healthcare-translation-app ./wwwroot
+# ENV ASPNETCORE_ENVIRONMENT=Production
+# ENTRYPOINT ["dotnet", "HealthcareTranslationAPI.dll"]
+
 # Stage 1: Build Angular
 FROM node:20 AS angular-build
 WORKDIR /app
@@ -32,15 +56,20 @@ RUN npm run build -- --configuration=production
 # Stage 2: Build ASP.NET
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS dotnet-build
 WORKDIR /src
-COPY HealthcareTranslationAPI .
-RUN dotnet restore "HealthcareTranslationAPI.csproj"
-RUN dotnet publish "HealthcareTranslationAPI.csproj" -c Release -o /app
+COPY HealthcareTranslationAPI/HealthcareTranslationAPI.csproj ./HealthcareTranslationAPI/
+RUN dotnet restore "HealthcareTranslationAPI/HealthcareTranslationAPI.csproj"
+COPY HealthcareTranslationAPI/ ./HealthcareTranslationAPI/
+RUN dotnet publish "HealthcareTranslationAPI/HealthcareTranslationAPI.csproj" -c Release -o /app
 
 # Final Stage
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /app
-EXPOSE 80 
+EXPOSE 80
 COPY --from=dotnet-build /app .
 COPY --from=angular-build /app/dist/healthcare-translation-app ./wwwroot
+
+# Environment variables
 ENV ASPNETCORE_ENVIRONMENT=Production
+ENV ASPNETCORE_URLS=http://*:80
+
 ENTRYPOINT ["dotnet", "HealthcareTranslationAPI.dll"]
