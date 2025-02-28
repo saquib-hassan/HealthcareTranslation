@@ -1,5 +1,5 @@
 # Healthcare Translation
-1.	Go to my repo [saquib-hassan/HealthcareTranslation](https://github.com/saquib-hassan)
+1.	Go to my repo https://github.com/saquib-hassan/HealthcareTranslation
 2.	Clone the repo
 3.	Make sure VS Code is installed
 4.	Run the both project
