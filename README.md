@@ -1,6 +1,5 @@
 # Healthcare Translation
-If you are facing an issue opening the live links – 
-1.	Go to my repo saquib-hassan/HealthcareTranslation
+1.	Go to my repo [saquib-hassan/HealthcareTranslation](https://github.com/saquib-hassan)
 2.	Clone the repo
 3.	Make sure VS Code is installed
 4.	Run the both project
@@ -14,7 +13,6 @@ If you are facing an issue opening the live links –
 
 
   
-![proto2](https://github.com/user-attachments/assets/be0d0ad1-df56-4a3e-ba77-2a1dc9524598)
-![proto1](https://github.com/user-attachments/assets/0223cd08-dc1c-460b-97eb-6a0f20d6c213)
+
 
 
