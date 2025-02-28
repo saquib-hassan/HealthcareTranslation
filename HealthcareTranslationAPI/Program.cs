@@ -48,6 +48,7 @@ if (app.Environment.IsDevelopment())
 }
 
 // added the satic files middleware
+app.MapGet("/health", () => "OK");
 app.UseDefaultFiles();
 app.UseStaticFiles();
 
